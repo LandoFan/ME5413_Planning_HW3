@@ -79,12 +79,12 @@ This command will launch the gazebo with the project world
 roslaunch me5413_world world.launch
 ```
 
-### 1. Pure Persuit Path Tracing
+### 1. Pure Pursuit Path Tracing
 
 In the second terminal, launch the path publisher node and the path tracker node:
 
 ```bash
-# Launch the pure persuit path tracing
+# Launch the pure pursuit path tracing
 roslaunch me5413_world path_tracking.launch
 ```
 
