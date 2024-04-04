@@ -1,14 +1,5 @@
-/** path_tracker_node.hpp
- *
- * Copyright (C) 2024 Shuo SUN & Advanced Robotics Center, National University of Singapore
- *
- * MIT License
- *
- * Declarations for PathTrackerNode class
- */
-
-#ifndef PATH_TRACKER_NODE_H_
-#define PATH_TRACKER_NODE_H_
+#ifndef LQR_CONTROL_H_
+#define LQR_CONTROL_H_
 
 #include <iostream>
 #include <string>
@@ -33,19 +24,19 @@
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 
 #include <dynamic_reconfigure/server.h>
-#include <me5413_world/path_trackerConfig.h>
+#include <me5413_world/lqr_trackerConfig.h>
 
-#include "me5413_world/pid.hpp"
+
+#include "me5413_world/lqr.hpp"
 
 namespace me5413_world
 {
 
-class PathTrackerNode
+class LqrTrackerNode
 {
  public:
-  PathTrackerNode();
-   geometry_msgs::Twist ControlOutout(const nav_msgs::Odometry& odom_robot, const nav_msgs::Path& local_path);
-  virtual ~PathTrackerNode() {};
+  LqrTrackerNode();
+  virtual ~LqrTrackerNode() {};
 
  private:
   void robotOdomCallback(const nav_msgs::Odometry::ConstPtr& odom);
@@ -53,10 +44,7 @@ class PathTrackerNode
   void localPathCallback(const nav_msgs::Path::ConstPtr& path);
 
   tf2::Transform convertPoseToTransform(const geometry_msgs::Pose& pose);
-  double computeStanelyControl(const double heading_error, const double cross_track_error, const double velocity);
-  double normalizeAngle(double angle);
-  geometry_msgs::Twist ControlOutput(const nav_msgs::Odometry& odom_robot, const nav_msgs::Path::ConstPtr& path);
-  geometry_msgs::Point LookaheadPoint(const tf2::Vector3& point_robot, const nav_msgs::Path::ConstPtr& path, double lookahead_distance);
+  geometry_msgs::Twist computeControlOutputs(const nav_msgs::Odometry& odom_robot, const geometry_msgs::Pose& pose_goal);
 
   // ROS declaration
   ros::NodeHandle nh_;
@@ -68,8 +56,8 @@ class PathTrackerNode
   tf2_ros::Buffer tf2_buffer_;
   tf2_ros::TransformListener tf2_listener_;
   tf2_ros::TransformBroadcaster tf2_bcaster_;
-  dynamic_reconfigure::Server<me5413_world::path_trackerConfig> server;
-  dynamic_reconfigure::Server<me5413_world::path_trackerConfig>::CallbackType f;
+  dynamic_reconfigure::Server<me5413_world::lqr_trackerConfig> server;
+  dynamic_reconfigure::Server<me5413_world::lqr_trackerConfig>::CallbackType f;
 
   // Robot pose
   std::string world_frame_;
@@ -77,10 +65,10 @@ class PathTrackerNode
   nav_msgs::Odometry odom_world_robot_;
   geometry_msgs::Pose pose_world_goal_;
 
-  // Controllers
-  control::PID pid_;
+  // LQR Controller
+  control::LQR lqr_;
 };
 
 } // namespace me5413_world
 
-#endif // PATH_TRACKER_NODE_H_
+#endif // LQR_CONTROL_H_

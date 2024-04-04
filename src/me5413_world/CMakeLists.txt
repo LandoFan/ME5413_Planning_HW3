@@ -25,21 +25,25 @@ find_package(catkin REQUIRED COMPONENTS
   dynamic_reconfigure
 )
 
+find_package(Eigen3 REQUIRED)
+
 generate_dynamic_reconfigure_options(
   cfg/path_publisher.cfg
   cfg/path_tracker.cfg
+  cfg/lqr_tracker.cfg
 )
 
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES me5413_world
   CATKIN_DEPENDS roscpp rospy std_msgs geometry_msgs nav_msgs dynamic_reconfigure
-  DEPENDS system_lib
+  DEPENDS system_lib EIGEN3 
 )
 
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
+  ${EIGEN3_INCLUDE_DIR}
   ${dynamic_reconfigure_PACKAGE_PATH}/cmake/cfgbuild.cmake
 )
 
@@ -51,3 +55,12 @@ add_dependencies(path_publisher_node ${catkin_EXPORTED_TARGETS} ${${PROJECT_NAME
 add_executable(path_tracker_node src/path_tracker_node.cpp)
 target_link_libraries(path_tracker_node ${catkin_LIBRARIES})
 add_dependencies(path_tracker_node ${catkin_EXPORTED_TARGETS} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${PROJECT_NAME}_gencfg)
+
+add_executable(lqr_tracker_node src/lqr_tracker_node.cpp)
+target_link_libraries(lqr_tracker_node ${catkin_LIBRARIES})
+add_dependencies(lqr_tracker_node ${catkin_EXPORTED_TARGETS} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${PROJECT_NAME}_gencfg)
+
+catkin_install_python(PROGRAMS
+  scripts/lqr_node.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)

@@ -3,6 +3,10 @@
 NUS ME5413 Autonomous Mobile Robotics Planning Project
 
 > Authors: [Ziggy](https://github.com/ziggyhuang) and [Shuo](https://github.com/SS47816)
+> 
+> Source: https://github.com/NUS-Advanced-Robotics-Centre/ME5413_Planning_Project
+> 
+> Editor: Fan Xiuqi, Chen Ziao, Wang Sijie Group 15
 
 ![Ubuntu 20.04](https://img.shields.io/badge/OS-Ubuntu_20.04-informational?style=flat&logo=ubuntu&logoColor=white&color=2bbc8a)
 ![ROS Noetic](https://img.shields.io/badge/Tools-ROS_Noetic-informational?style=flat&logo=ROS&logoColor=white&color=2bbc8a)
@@ -76,36 +80,24 @@ This command will launch the gazebo with the project world
 roslaunch me5413_world world.launch
 ```
 
-### 1. Path Tracking
+### 1. Pure Persuit Path Tracing
 
 In the second terminal, launch the path publisher node and the path tracker node:
 
 ```bash
-# Load a map and launch AMCL localizer
+# Launch the pure persuit path tracing
 roslaunch me5413_world path_tracking.launch
 ```
 
-![rviz_tracking_image](src/me5413_world/media/rviz_tracking.png)
+### 2. LQR Control
+In the second terminal, launch the path publisher node and the path tracker node:
 
-## Student Tasks
+```bash
+# Launch the lqr controller
+roslaunch me5413_world lqr_tracking.launch
+```
 
-- Control your robot to follow the given **figure 8** track.
-
-  - You may use any algorithms you like.
-  - Implement your algorithms in the `src/me5413_world/include/me5413_world/path_tracker_node.hpp` and `src/me5413_world/src/path_tracker_node.cpp`, to replace our template code.
-  - Test your algorithms on the track & Report your tracking accuracy.
-
-- In the template code, we have provided you:
-
-  - A dumb **PID** controller for the throttle.
-  - A weird **Stanley** controller for the steering.
-  - However, both are not properly configured or tuned.
-
-- We have provided you a dynamic reconfigure GUI that allows you to tune some of the parameters:
-
-  ![rqt_reconfig_image](src/me5413_world/media/rqt_reconfig.png)
-
-- We also provides you six topics (and visualized in RVIZ) that computes the real-time errors between your robot and the tracking path:
+- Six topics (and visualized in RVIZ) are as follows that computes the real-time errors between your robot and the tracking path:
   - `/me5413_world/planning/abs_position_error` ([m], `std_msgs::Float32`)
   - `/me5413_world/planning/abs_heading_error` ([deg], `std_msgs::Float32`)
   - `/me5413_world/planning/abs_speed_error` ([m/s], `std_msgs::Float32`)
@@ -113,15 +105,16 @@ roslaunch me5413_world path_tracking.launch
   - `/me5413_world/planning/rms_heading_error` ([deg], `std_msgs::Float32`)
   - `/me5413_world/planning/rms_speed_error` ([m/s], `std_msgs::Float32`)
 
-## Contribution
-
-You are welcome contributing to this repo by opening a pull-request
-
 We are following:
 
 - [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html),
 - [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#main),
 - [ROS C++ Style Guide](http://wiki.ros.org/CppStyleGuide)
+
+## Output 
+The results based on the above topics are showing as follows:
+![Figure_1](https://github.com/nusstu0019/ME5413_HW3_Planning/assets/146154242/dac004ef-db08-4c1c-8a00-550a1f924e78)
+
 
 ## License
 

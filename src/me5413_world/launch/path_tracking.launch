@@ -9,4 +9,8 @@
 
   <!-- Dynamic Reconfigure GUI -->
   <node name="rqt_reconfigure" pkg="rqt_reconfigure" type="rqt_reconfigure" output="screen" />
+  
+  <!-- Record specific topics using rosbag
+<node name="rosbag_record_error" pkg="rosbag" type="record" args="-o $(find me5413_world)/error_purepersuit /me5413_world/planning/abs_heading_error /me5413_world/planning/abs_position_error /me5413_world/planning/abs_speed_error /me5413_world/planning/rms_heading_error /me5413_world/planning/rms_position_error /me5413_world/planning/rms_speed_error" output="screen"/> -->
+
 </launch>
