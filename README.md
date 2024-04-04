@@ -56,9 +56,8 @@ After forking this repo to your own github:
 
 ```bash
 # Clone your own fork of this repo (assuming home here `~/`)
-cd
-git clone https://github.com/<YOUR_GITHUB_USERNAME>/ME5413_Planning_Project.git
-cd ME5413_Planning_Project
+git clone git@github.com:LandoFan/ME5413_Planning_HW3.git
+cd ME5413_Planning_HW3
 
 # Install all dependencies
 rosdep install --from-paths src --ignore-src -r -y
